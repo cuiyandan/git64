@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 1.设置导航链接 -->
+        <router-link to="/home">首页</router-link>
+        <router-link to="/mus">音乐</router-link>
+
+
+
+        <!-- 2.容器 -->
+        <router-view></router-view>
+
+    </div>
+
+    <script src="./vue.js"></script>
+    <script src="./vue-router.js"></script>
+    <script>
+        // 3.提供组件
+        const Home = {
+            template: `<div>home---</div>`
+        };
+        const Detail = {
+            // 动态渲染路由标识id的值
+            template: `<div>detail---{{$route.params.id}}</div>`
+        }
+        const Music = {
+            template: `<div>
+                    <router-link to="/mus/pop">流行</router-link>
+                    <router-link to="/mus/cal">古典</router-link>
+                    
+                    <router-view></router-view>
+                </div>`
+        };
+
+        const routes = [{
+                name: 'default',
+                path: '/',
+                // component: 'Home'
+                redirect: '/home'
+            }, {
+                name: 'home',
+                path: '/home',
+                component: Home,
+            }, {
+                name: 'mus',
+                path: '/mus',
+                component: Music,
+                // 二级导航配置应该在一级导航配置之上
+                // 配置二级导航
+                children: [{
+                    path: '/mus/:id',
+                    component: Detail
+                }]
+            }]
+            // 4.实例化router
+        const router = new VueRouter({
+            // 5.配置路由 routes
+            routes
+
+        })
+        new Vue({
+            el: '#app',
+            //6. 挂载
+            router,
+            data: {
+
+            },
+            methods: {
+
+            },
+        })
+    </script>
+</body>
+
+</html>
